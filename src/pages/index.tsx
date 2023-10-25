@@ -1,118 +1,92 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import React, {useState} from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+const Gakutowatch = () => {
+  const [time, setTime] = useState<number>(0)
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
+  const [lapTimes, setLapTimes] = useState<number[]>([]);
+  const [lap, plusCount] = useState<number>(0)
 
-export default function Home() {
+    // startを押したときの処理
+  const watchStart = () => {
+    if (timerId) return
+    // 10ミリ秒ごとにtimeの変数を上書き
+    const id: NodeJS.Timeout = setInterval(() => setTime((prevTime) => prevTime + 10), 10)
+    setTimerId(id)
+  }
+
+  // stopを押したときの処理
+  const watchStop = () => {
+    // 一定間隔ごとに実行する処理を解除
+    if (timerId) clearInterval(timerId)
+    setTimerId(null)
+  }
+
+  const watchReset = () => {
+    setTime(0)
+    if (timerId) clearInterval(timerId)
+    setTimerId(null)
+  }
+
+    // stopで確定したタイムを記録, 0の場合には記録しない
+  const saveLapTime = () => {
+    const number = 0
+    if (time) {
+      setLapTimes([...lapTimes, time])
+  }
+}
+
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+    <div className='timer'>
+      <h2>ポモドーロタイマー</h2>
+      <div>{(time / 1000).toFixed(1)} s</div>
+      <div>
+        <button onClick={watchStart}>Start</button>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+      <div>
+        <button onClick={watchStop}>Stop</button>
       </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+      <div>
+        <button onClick={watchReset}>Reset</button>
       </div>
-    </main>
+      <div>
+        <button onClick={saveLapTime}>Record</button>
+      </div>
+      <div>
+      <h3>ラップタイム</h3>
+      <ul>
+        {lapTimes.map((lapTime, index) => (
+      <li key={index}>{(lapTime / 1000).toFixed(2)} s</li>
+      ))}
+      </ul>
+      <body>
+    <div className="container">
+        <h1>ポモドーロタイマーとは何ですか？</h1>
+
+        <p>ポモドーロタイマーは、作業や学習を一定の時間（通常は25分）集中して行い、その後短い休憩（通常は5分）を取るという作業効率化テクニックです。この手法は、1980年代にイタリアのフランチェスコ・チリロによって提唱されました。ポモドーロ（イタリア語でトマト）という名前は、チリロが使っていたキッチンタイマーがトマト型だったことに由来しています。</p>
+
+        <h2>ポモドーロテクニックの基本的な手順</h2>
+
+        <ol>
+            <li><strong>作業を25分間集中して行う（ポモドーロ）</strong> タスクに取り組む時間を25分に設定します。この間、他のことに気を取られずに集中して取り組みます。</li>
+            <li><strong>5分間の休憩を取る</strong> 25分の作業後に、5分間の休憩を取ります。リラックスしたり、ストレッチをしたりしてリフレッシュします。</li>
+            <li><strong>4ポモドーロごとに長めの休憩を取る</strong> 4セットのポモドーロ（つまり4回の25分の作業とその後の休憩）を終えた後に、長めの休憩（通常は15-30分）を取ります。これにより、疲労を軽減し、長期的な集中力を保つことができます。</li>
+        </ol>
+
+        <h2>ポモドーロタイマーの利点</h2>
+
+        <ul>
+            <li><strong>集中力の向上：</strong> 短い時間で集中して作業することで、効率的にタスクに取り組むことができます。</li>
+            <li><strong>疲労の軽減：</strong> 定期的な休憩を取ることで、疲労やストレスを軽減し、長時間の作業に耐えられるようになります。</li>
+            <li><strong>タスクの分割：</strong> 大きなタスクを25分のセッションに分割することで、複雑な仕事も取り組みやすくなります。</li>
+            <li><strong>作業の計画と進捗の可視化：</strong> ポモドーロを使うことで、作業の進捗を確認しやすくなり、日々の計画を立てやすくなります。</li>
+            <li><strong>モチベーションの維持：</strong> 25分の作業という短い時間なので、モチベーションを持続しやすいです。</li>
+        </ul>
+    </div>
+</body>
+</div>
+
+    </div>
   )
 }
+
+export default Gakutowatch
