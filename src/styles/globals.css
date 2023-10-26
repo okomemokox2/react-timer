@@ -37,3 +37,25 @@ body {
   max-width: 600px;
   margin: 0 auto;
 }
+
+.timer-container {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.timer-display {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.timer-button {
+  padding: 10px 20px;
+  font-size: 18px;
+}
