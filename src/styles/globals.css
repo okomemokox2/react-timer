@@ -41,7 +41,7 @@ body {
 .timer-container {
   text-align: center;
   margin: 0 auto;
-  max-width: 300px;
+  max-width: 1000px;
 }
 
 .button-container {
@@ -51,16 +51,52 @@ body {
 }
 
 .timer-button {
-  padding: 10px 20px;
   font-size: 18px;
-}
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    width: 120px;
+    margin: auto;
+    padding: 1rem 2rem;
+    font-weight: bold;
+    color: black;
+    border-bottom: 2px solid black;
+    border-radius: 100vh;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+    -webkit-box-shadow: 0 2px 7px rgba(0, 0, 0, .3);
+    transition: 0.3s;
+  }
+  .timer-button:hover {
+    color: #fff;
+    background: gray;
+    border-bottom: 2px solid #fff;
+    transform: translateY(3px);
+  }
 
 .three-timers {
-  padding-right: 100;
+  font-size: 20px;
+}
+
+.timer-display1 {
   font-size: 36px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .qk-timer-display {
   font-size: 36px;
+  margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.countchange {
+  font-size: 30px;
+}
+
+.countminus {
+  margin-right: 20px;
+}
+
+.countplus {
+  margin-left: 20px;
 }
