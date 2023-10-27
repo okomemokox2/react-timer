@@ -44,11 +44,6 @@ body {
   max-width: 300px;
 }
 
-.timer-display {
-  font-size: 36px;
-  margin-bottom: 20px;
-}
-
 .button-container {
   display: flex;
   justify-content: space-around;
@@ -58,4 +53,14 @@ body {
 .timer-button {
   padding: 10px 20px;
   font-size: 18px;
+}
+
+.three-timers {
+  padding-right: 100;
+  font-size: 36px;
+}
+
+.qk-timer-display {
+  font-size: 36px;
+  margin-bottom: 20px;
 }

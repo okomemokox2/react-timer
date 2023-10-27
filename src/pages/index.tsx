@@ -2,12 +2,8 @@ import React, {useState, useEffect} from 'react'
 
 const Gakutowatch = () => {
   const [time1, setTime1] = useState<number>(1500000)
-  const [time2, setTime2] = useState<number>(1500000)
-  const [time3, setTime3] = useState<number>(1500000)
-  const [time4, setTime4] = useState<number>(1500000)
+  const [time4, setTime4] = useState<number>(300000)
   const [timerId1, setTimerId1] = useState<NodeJS.Timeout | null>(null)
-  const [timerId2, setTimerId2] = useState<NodeJS.Timeout | null>(null)
-  const [timerId3, setTimerId3] = useState<NodeJS.Timeout | null>(null)
   const [timerId4, setTimerId4] = useState<NodeJS.Timeout | null>(null)
   const [lapTimes, setLapTimes] = useState<number[]>([]);
   const [lap, plusCount] = useState<number>(0)
@@ -34,48 +30,6 @@ const Gakutowatch = () => {
     setTimerId1(null)
   }
 
-      // startを押したときの処理
-  const watchStart2 = () => {
-    if (timerId2) return
-    // 10ミリ秒ごとにtimeの変数を上書き
-    const id: NodeJS.Timeout = setInterval(() => setTime2((prevTime) => prevTime - 10), 10)
-    setTimerId2(id)
-  }
-
-  // stopを押したときの処理
-  const watchStop2 = () => {
-    // 一定間隔ごとに実行する処理を解除
-    if (timerId2) clearInterval(timerId2)
-    setTimerId2(null)
-  }
-
-  const watchReset2 = () => {
-    setTime2(1500000)
-    if (timerId2) clearInterval(timerId2)
-    setTimerId2(null)
-  }
-
-    // startを押したときの処理
-    const watchStart3 = () => {
-      if (timerId3) return
-      // 10ミリ秒ごとにtimeの変数を上書き
-      const id: NodeJS.Timeout = setInterval(() => setTime3((prevTime) => prevTime - 10), 10)
-      setTimerId3(id)
-    }
-
-    // stopを押したときの処理
-    const watchStop3 = () => {
-      // 一定間隔ごとに実行する処理を解除
-      if (timerId3) clearInterval(timerId3)
-      setTimerId3(null)
-    }
-
-    const watchReset3 = () => {
-      setTime3(1500000)
-      if (timerId3) clearInterval(timerId3)
-      setTimerId3(null)
-    }
-
     // startを押したときの処理
     const watchStart4 = () => {
       if (timerId4) return
@@ -92,7 +46,7 @@ const Gakutowatch = () => {
     }
 
     const watchReset4 = () => {
-      setTime4(1500000)
+      setTime4(300000)
       if (timerId4) clearInterval(timerId4)
       setTimerId4(null)
     }
@@ -123,41 +77,24 @@ const Gakutowatch = () => {
 }
 */}
 
+
 return (
   <div className='timer'>
     <div className="timer-container">
       <h2>ポモドーロタイマー</h2>
-      <div className="timer-display">{(time1 / 1000).toFixed(2)} s</div>
-      <button className="timer-button" onClick={watchStart1}>Start</button>
-      <button className="timer-button" onClick={watchStop1}>Stop</button>
-      <button className="timer-button" onClick={watchReset1}>Reset</button>
-      <div className="timer-display">{(time2 / 1000).toFixed(2)} s</div>
-      <button className="timer-button" onClick={watchStart2}>Start</button>
-      <button className="timer-button" onClick={watchStop2}>Stop</button>
-      <button className="timer-button" onClick={watchReset2}>Reset</button>
-      <div className="timer-display">{(time3 / 1000).toFixed(2)} s</div>
-      <button className="timer-button" onClick={watchStart3}>Start</button>
-      <button className="timer-button" onClick={watchStop3}>Stop</button>
-      <button className="timer-button" onClick={watchReset3}>Reset</button>
-      <div className="timer-display">{(time4 / 1000).toFixed(2)} s</div>
+      <div className='three-timers'>
+        <div className="timer-display1">{(time1 / 1000).toFixed(2)} s</div>
+        <button className="timer-button" onClick={watchStart1}>Start</button>
+        <button className="timer-button" onClick={watchStop1}>Stop</button>
+        <button className="timer-button" onClick={watchReset1}>Reset</button>
+      </div>
+      <h2>QK timer</h2>
+      <div className="qk-timer-display">{(time4 / 1000).toFixed(2)} s</div>
       <button className="timer-button" onClick={watchStart4}>Start</button>
       <button className="timer-button" onClick={watchStop4}>Stop</button>
       <button className="timer-button" onClick={watchReset4}>Reset</button>
-      <div className="button-container">
-      {/*  <button className="timer-button" onClick={watchReset}>Reset</button>
-        <button className="timer-button" onClick={saveLapTime}>Record</button>*/}
-      </div>
     </div>
-{/*
-    <div className="lap-times-container">
-      <h3>ラップタイム</h3>
-      <ul>
-        {lapTimes.map((lapTime, index) => (
-          <li key={index}>{(lapTime / 1000).toFixed(2)} s</li>
-        ))}
-      </ul>
-    </div>
-        */}
+
     <div className="info-container">
       <h1>ポモドーロタイマーとは何ですか？</h1>
       <p>
