@@ -4,6 +4,7 @@ const Gakutowatch = () => {
   const [time1, setTime1] = useState<number>(1500000)
   const [time4, setTime4] = useState<number>(300000)
   const [count, changecount] = useState(0)
+  const [qkcount, qkchangecount] = useState(0)
   const [timerId1, setTimerId1] = useState<NodeJS.Timeout | null>(null)
   const [timerId4, setTimerId4] = useState<NodeJS.Timeout | null>(null)
   const [lapTimes, setLapTimes] = useState<number[]>([]);
@@ -14,10 +15,8 @@ const Gakutowatch = () => {
   const watchStart1 = () => {
     if (timerId1) return
     // 10ミリ秒ごとにtimeの変数を上書き
-    const id: NodeJS.Timeout = setInterval(() => setTime1((prevTime) => prevTime - 10), 10)
-    setTimerId1(id)
+    const id: NodeJS.Timeout = setInterval(() => setTime1((prevTime) => prevTime - 10), 10);
   }
-
   // stopを押したときの処理
   const watchStop1 = () => {
     // 一定間隔ごとに実行する処理を解除
@@ -35,6 +34,7 @@ const Gakutowatch = () => {
     const minutes = Math.floor(time1 / 60000); // ミリ秒を分に変換
     const seconds = Math.floor((time1 % 60000) / 1000); // ミリ秒を秒に変換
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return time1;
   };
 
   const formatTime4 = (time2: number) => {
@@ -53,11 +53,26 @@ const Gakutowatch = () => {
     changecount(count - 1)
   }
 
-  //countをリセット
+  const qkcountTimerPlus = () => {
+    qkchangecount(qkcount + 1)
+  }
+
+  const qkcountTimerMinus = () => {
+    if (qkcount > 0)
+    qkchangecount(qkcount - 1)
+  }
+
+  //count, qkcountをリセット
   const countReset = () => {
     if (count > 0)
     changecount(count - count)
   }
+  const qkcountReset = () => {
+    if (count > 0)
+    qkchangecount(count - count)
+  }
+
+    // QKタイマー(timerId4)
     // startを押したときの処理
     const watchStart4 = () => {
       if (timerId4) return
@@ -117,14 +132,14 @@ return (
         <button className="timer-button" onClick={watchStart1}>Start</button>
         <button className="timer-button" onClick={watchStop1}>Stop</button>
         <button className="timer-button" onClick={watchReset1}>Reset</button>
-        <div>合計</div>
         <div className="countchange">
          <button className="countminus" onClick={countTimerMinus}>＜</button>
          {count}
          <button className="countplus" onClick={countTimerPlus}>＞</button>
         </div>
         <div>ポモドーロ</div>
-        <button className='countreset' onClick={countReset}>Reset</button>
+        <div>※タイマー1回 + 1休憩 = 1ポモドーロ※</div>
+        <button className='reset' onClick={countReset}>Reset</button>
       </div>
       <h2>休憩タイマー</h2>
       {/*<div className="qk-timer-display">{(time4 / 1000).toFixed(2)} s</div>*/}
@@ -132,6 +147,13 @@ return (
       <button className="timer-button" onClick={watchStart4}>Start</button>
       <button className="timer-button" onClick={watchStop4}>Stop</button>
       <button className="timer-button" onClick={watchReset4}>Reset</button>
+      <div className="countchange">
+         <button className="countminus" onClick={qkcountTimerMinus}>＜</button>
+         {qkcount}
+         <button className="countplus" onClick={qkcountTimerPlus}>＞</button>
+        </div>
+      <div>休憩</div>
+      <button className='reset' onClick={qkcountReset}>Reset</button>
     </div>
 
     <div className="info-container">
